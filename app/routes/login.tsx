@@ -3,9 +3,15 @@ import { Form, redirect, useActionData } from "@remix-run/react";
 import {
   getSession,
   commitSession,
-} from "./session.server";
+} from "../session.server";
 import { LoaderFunctionArgs } from "@remix-run/node";
+import Input from "~/utils/Input";
+import Button from "~/utils/Button";
 
+async function validateCredentials(email: string | undefined, password: string | undefined) {
+  if (email && password) return email;
+  return null;
+}
 
 export const action: ActionFunction = async ({ request }) => {
   const session = await getSession(
@@ -15,14 +21,8 @@ export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const email = form.get("email")?.toString();
   const password = form.get("password")?.toString();
-  async function validateCredentials(email: string | undefined, password: string | undefined) {
-    if (email && password) return email;
-    return null;
-  }
 
   const userId = await validateCredentials(email, password);
-
-
   if (userId === null) {
     return redirect("/login")
   }
@@ -33,7 +33,6 @@ export const action: ActionFunction = async ({ request }) => {
       "Set-Cookie": await commitSession(session),
     },
   });
-
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -54,9 +53,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     },
   });
 }
-
-
-
 export default function LoginPage() {
   const actionData = useActionData<typeof action>();
 
@@ -74,33 +70,16 @@ export default function LoginPage() {
 
         <Form method="post" className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-black" htmlFor="email">Email</label>
-            <input
-              name="email"
-              type="email"
-              required
-              placeholder="Enter your email"
-              className="w-full  bg-gray-200  text-black px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-400"
-            />
+            <Input label="Email" name="email" required placeholder='Enter your email' />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-black" htmlFor="password">Password</label>
-            <input
-              name="password"
-              type="password"
-              required
-              placeholder="Enter your password"
-              className="w-full bg-gray-200 text-black mb-8  px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-400"
-            />
+            <Input label="Password" name="password" required placeholder='Enter your password' />
           </div>
+          <div className="flex justify-end">
 
-          <button
-            type="submit"
-            className=" w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
-          >
-            Login
-          </button>
+            <Button >Login</Button>
+          </div>
         </Form>
       </div>
     </div>

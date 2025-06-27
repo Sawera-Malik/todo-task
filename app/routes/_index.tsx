@@ -1,11 +1,17 @@
+import { LoaderFunction, redirect } from "@remix-run/node";
+import { getSession } from "~/session.server";
 
-export default function Home() {
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  const userId = session.get("userId");
 
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-800 p-4 " style={{ padding: 30, fontFamily: "sans-serif" }}>
-      <h1 className="text-4xl font-bold mb-5">Home</h1>
-      <a href="/login" target="_blank" className="text-blue-500 underline"> Go to Login Page</a>
+  if (userId) {
+    return redirect(`/todos?email=${encodeURIComponent(userId)}`);
+  } else {
+    return redirect("/login");
+  }
+};
 
-    </div>
-  );
+export default function Index() {
+  return null;
 }

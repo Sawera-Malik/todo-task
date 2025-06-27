@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from "@remix-run/node"; // or cloudflare/deno
+import { createCookieSessionStorage } from "@remix-run/node"; 
 
 type SessionData = {
     userId: string;
