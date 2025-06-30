@@ -5,8 +5,8 @@ import {
   commitSession,
 } from "../session.server";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import Input from "~/utils/Input";
-import Button from "~/utils/Button";
+import Input from "~/components/Input";
+import Button from "~/components/Button";
 
 async function validateCredentials(email: string | undefined, password: string | undefined) {
   if (email && password) return email;
@@ -55,6 +55,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 }
 export default function LoginPage() {
   const actionData = useActionData<typeof action>();
+  console.log("actionData", actionData);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-800 p-4">
@@ -70,15 +71,15 @@ export default function LoginPage() {
 
         <Form method="post" className="space-y-4">
           <div>
-            <Input label="Email" name="email" required placeholder='Enter your email' />
+            <Input label="Email" type="email" name="email" placeholder='Enter your email' />
           </div>
 
           <div>
-            <Input label="Password" name="password" required placeholder='Enter your password' />
+            <Input label="Password" type="password" name="password" placeholder='Enter your password' />
           </div>
           <div className="flex justify-end">
 
-            <Button >Login</Button>
+            <Button variant="danger">Login</Button>
           </div>
         </Form>
       </div>

@@ -1,7 +1,7 @@
 import { json, type LoaderFunction } from "@remix-run/node";
 import { Form, Outlet, useLoaderData, useNavigate } from "@remix-run/react";
 import api from "../config";
-import Button from "~/utils/Button";
+import Button from "~/components/Button";
 
 export const loader: LoaderFunction = async ({ request }) => {
     const url = new URL(request.url);
@@ -30,12 +30,12 @@ export default function TodoList() {
                         <span >Notes</span>
                     </h1>
                     <div>{email}</div>
-                    <Button onClick={() => navigate("/logout")}> Logout </Button>
+                    <Button onClick={() => navigate("/logout")} size="md" variant="secondary" > Logout </Button>
                 </header>
-                <div className='flex w-full h-screen '>
-                    <div className='border w-1/4 h-96 bg-gray-100 border-r-none h-screen'>
+                <div className='flex w-full h-[85vh] '>
+                    <div className='border w-1/4 h-96 bg-gray-100 border-r-none '>
                         <h1 className=' text-blue-500 p-2 text-2xl border cursor-pointer' onClick={() => navigate(`/todos/new?email=${email}`)}>+ Add Notes</h1>
-                        <ul>
+                        <ul className="overflow-y-scroll max-h-[85vh] scrollbar-none scrollbar-thumb-gray-100 scrollbar-track-gray-100">
                             {todos.map((todo: any) => (
                                 <li key={todo.id} className="w-full border p-4 bg-white cursor-pointer flex justify-around" onClick={() => navigate(`/todos/${todo.id}?email=${email}`)}>
                                     <span className="text-black  w-96" >
@@ -45,7 +45,7 @@ export default function TodoList() {
                             ))}
                         </ul>
                     </div>
-                    <div className="w-3/4 h-screen">
+                    <div className="w-3/4 h-screen max-h-[85vh]">
                         <Outlet />
                     </div>
                 </div>
