@@ -38,7 +38,7 @@ export default function Button({
         <button
             onClick={onClick}
             className={twMerge(
-                `inline-flex items-center justify-${center ? 'center' : 'start'
+                ` inline-flex items-center justify-${center ? 'center' : 'start'
                 } rounded-md ${variants[variant] || ''
                 } ${sizes[size] || ''} ${className}`
             )}
