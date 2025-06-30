@@ -55,7 +55,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 }
 export default function LoginPage() {
   const actionData = useActionData<typeof action>();
-  console.log("actionData", actionData);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-800 p-4">
@@ -71,11 +70,11 @@ export default function LoginPage() {
 
         <Form method="post" className="space-y-4">
           <div>
-            <Input label="Email" type="email" name="email" placeholder='Enter your email' />
+            <Input label="Email" type="email" name="email" placeholder='Enter your email' required />
           </div>
 
           <div>
-            <Input label="Password" type="password" name="password" placeholder='Enter your password' />
+            <Input label="Password" type="password" name="password" placeholder='Enter your password' required />
           </div>
           <div className="flex justify-end">
 
