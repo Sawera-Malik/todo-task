@@ -1,24 +1,24 @@
 import { twMerge } from "tailwind-merge";
+import React from "react";
+
+type DefaultInputProps = React.InputHTMLAttributes<HTMLInputElement> & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 const Input = ({
     label,
     type = "text",
-    placeholder,
     name,
     className,
-    required = false,
     rows,
-    error
+    error,
+    ...rest
 }: {
     label?: string;
     type?: HTMLInputElement["type"] | "textarea";
-    placeholder?: string | undefined;
     name?: string;
     className?: string;
-    required?: boolean;
     rows?: number;
     error?: string
-}) => {
+} & DefaultInputProps) => {
 
     return (
         <div className="flex flex-col gap-1">
@@ -29,24 +29,20 @@ const Input = ({
             )}
             {type === "textarea" ? (
                 <textarea
-                    className={twMerge(`border rounded px-3 py-2 w-full bg-white text-black ${className}`)}
+                    className={twMerge(`border rounded  px-3 py-2 w-full bg-white text-black mb-4 ${className}`)}
                     id={name}
                     rows={rows}
-                    placeholder={placeholder}
-                    name={name}
-                    required={required}
+                    {...rest}
                 />
 
             ) : (
                 <input
                     id={name}
                     type={type}
-                    placeholder={placeholder}
-                    name={name}
-                    required={required}
                     className={twMerge(
-                        `border rounded px-3 py-2 w-full bg-white text-black ${className}`
+                        `border rounded px-3 py-2 w-full bg-white text-black mb-4 ${className}`
                     )}
+                    {...rest}
                 />
             )}
             {error && <p className="text-red-600 text-sm mt-1">{error}</p>}

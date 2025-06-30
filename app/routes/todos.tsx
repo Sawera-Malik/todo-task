@@ -1,14 +1,14 @@
 import { json, type LoaderFunction } from "@remix-run/node";
 import { Form, Outlet, useLoaderData, useNavigate } from "@remix-run/react";
-import api from "../config";
 import Button from "~/components/Button";
+import { getNotes } from "~/config/api";
 
 export const loader: LoaderFunction = async ({ request }) => {
     const url = new URL(request.url);
     const email = url.searchParams.get("email");
 
     try {
-        const res = await api.get('/notes');
+        const res = await getNotes();
         if (!res.data) {
             throw new Response("No data returned from server", { status: 500 });
         }
@@ -35,12 +35,18 @@ export default function TodoList() {
                 <div className='flex w-full h-[85vh] '>
                     <div className='border w-1/4 h-96 bg-gray-100 border-r-none '>
                         <h1 className=' text-blue-500 p-2 text-2xl border cursor-pointer' onClick={() => navigate(`/todos/new?email=${email}`)}>+ Add Notes</h1>
-                        <ul className="overflow-y-scroll max-h-[85vh] scrollbar-none scrollbar-thumb-gray-100 scrollbar-track-gray-100">
+                        <ul className="overflow-y-scroll max-h-[85vh]">
                             {todos.map((todo: any) => (
-                                <li key={todo.id} className="w-full border p-4 bg-white cursor-pointer flex justify-around" onClick={() => navigate(`/todos/${todo.id}?email=${email}`)}>
-                                    <span className="text-black  w-96" >
+                                <li key={todo.id} className="w-full border p-4 bg-white cursor-pointer flex justify-around" >
+                                    <span className="text-black  w-96" onClick={() => navigate(`/todos/${todo.id}?email=${email}`)} >
                                         📝 {todo.text}{" "}
                                     </span>
+                                    <Button
+                                        className="flex items-center"
+                                        onClick={() => navigate(`/todos/edit/${todo.id}?email=${email}`)}
+                                    >
+                                        <span className="text-black">Edit</span>
+                                    </Button>
                                 </li>
                             ))}
                         </ul>
