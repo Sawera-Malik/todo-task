@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData, Form } from "@remix-run/react";
 import api from "../config";
-import Button from "~/utils/Button";
+import Button from "~/components/Button";
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const id = params.id;
