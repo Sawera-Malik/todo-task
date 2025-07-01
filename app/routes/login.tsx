@@ -24,9 +24,11 @@ export const action: ActionFunction = async ({ request }) => {
 
   const userId = await validateCredentials(email, password);
   if (userId === null) {
-    return redirect("/login")
+    return json(
+      { error: "Invalid email or password" },
+      { status: 400 }
+    );
   }
-
   session.set("userId", userId);
   return redirect(`/todos?email=${encodeURIComponent(userId)}`, {
     headers: {
@@ -39,8 +41,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await getSession(
     request.headers.get("Cookie")
   );
-  console.log('session', session);
-
   if (session.has("userId")) {
     return redirect("/todos")
   }

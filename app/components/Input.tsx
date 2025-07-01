@@ -10,6 +10,7 @@ const Input = ({
     className,
     rows,
     error,
+    defaultValue,
     ...rest
 }: {
     label?: string;
@@ -17,7 +18,10 @@ const Input = ({
     name?: string;
     className?: string;
     rows?: number;
-    error?: string
+    error?: string;
+    defaultValue?: string;
+    [key: string]: any;
+
 } & DefaultInputProps) => {
 
     return (
@@ -32,6 +36,8 @@ const Input = ({
                     className={twMerge(`border rounded  px-3 py-2 w-full bg-white text-black mb-4 ${className}`)}
                     id={name}
                     rows={rows}
+                    name={name}
+                    defaultValue={defaultValue}
                     {...rest}
                 />
 
@@ -39,9 +45,11 @@ const Input = ({
                 <input
                     id={name}
                     type={type}
+                    name={name}
                     className={twMerge(
                         `border rounded px-3 py-2 w-full bg-white text-black mb-4 ${className}`
                     )}
+                    defaultValue={defaultValue}
                     {...rest}
                 />
             )}
