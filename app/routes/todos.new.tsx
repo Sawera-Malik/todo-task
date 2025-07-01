@@ -1,9 +1,9 @@
 import { json, useActionData } from '@remix-run/react'
 import { ActionFunction } from '@remix-run/node'
-import { createNote } from '~/services/api'
+import { createNote } from '~/config/api'
 import TodoForm from '~/components/TodoForm'
 import { validationError } from 'remix-validated-form'
-import { todoValidator } from '~/validation'
+import { validatorTodo } from '~/validation'
 
 export const loader = async ({ request }: { request: Request }) => {
     const url = new URL(request.url)
@@ -13,7 +13,7 @@ export const loader = async ({ request }: { request: Request }) => {
 export const action: ActionFunction = async ({ request }) => {
     const form = await request.formData();
     const data = Object.fromEntries(form);
-    const result = await todoValidator.validate(
+    const result = await validatorTodo.validate(
         await data
     )
     if (result.error) {
