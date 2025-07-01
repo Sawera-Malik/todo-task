@@ -30,10 +30,9 @@ const TodosEdit = () => {
     const actionData = useActionData<typeof action>();
 
     return (
-        <Form method="post" className="space-y-4 m-10 block">
+        <div>
             <TodoForm actionData={actionData} defaultBody={loaderData.body} defaultText={loaderData.text} />
-
-        </Form>
+        </div>
     )
 }
 
