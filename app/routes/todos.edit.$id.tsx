@@ -1,7 +1,9 @@
 import { LoaderFunctionArgs } from '@remix-run/node';
-import { Form, json, useActionData, useLoaderData } from '@remix-run/react';
+import { json, useActionData, useLoaderData } from '@remix-run/react';
 import TodoForm from '~/components/TodoForm'
 import { getNote, updateNote } from '~/config/api';
+import { validationError } from 'remix-validated-form';
+import { validatorTodo } from '~/validation';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const id = params.id as string;
@@ -12,15 +14,14 @@ export async function loader({ params }: LoaderFunctionArgs) {
 export async function action({ request, params }: LoaderFunctionArgs) {
     const id = params.id as string;
     const form = await request.formData();
-    const text = form.get("todoText") as string;
-    const body = form.get("todoBody") as string;
-    let errors: Record<string, string> = {};
-
-    if (!text) errors.todoText = "Text is required";
-    if (!body) errors.todoBody = "Body is required";
-    if (Object.keys(errors).length > 0) {
-        return json({ errors, values: { text, body } }, { status: 400 });
+    const data = Object.fromEntries(form);
+    const result = await validatorTodo.validate(
+        await data
+    )
+    if (result.error) {
+        return validationError(result.error)
     }
+    const { text, body } = result.data;
 
     await updateNote(id, { text, body });
     return json({ success: true });
@@ -36,4 +37,4 @@ const TodosEdit = () => {
     )
 }
 
-export default TodosEdit
+export default TodosEdit;
