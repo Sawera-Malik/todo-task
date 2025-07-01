@@ -38,9 +38,7 @@ const TodosNew = () => {
 
     return (
         <div>
-            <Form method="post" className="space-y-4 m-10 block">
-                <TodoForm actionData={actionData} />
-            </Form>
+            <TodoForm actionData={actionData} />
         </div>
     )
 }
