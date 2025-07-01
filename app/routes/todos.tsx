@@ -33,9 +33,9 @@ export default function TodoList() {
                     <Button onClick={() => navigate("/logout")} size="md" variant="secondary" > Logout </Button>
                 </header>
                 <div className='flex w-full h-[85vh] '>
-                    <div className='border w-1/4 h-[91.5vh] overflow-y-scroll  bg-gray-100 border-r-none '>
+                    <div className='border w-1/4 h-96 bg-gray-100 border-r-none '>
                         <h1 className=' text-blue-500 p-2 text-2xl border cursor-pointer' onClick={() => navigate(`/todos/new?email=${email}`)}>+ Add Notes</h1>
-                        <ul className="max-h-[85vh]">
+                        <ul className="overflow-y-scroll max-h-[85vh]">
                             {todos.map((todo: any) => (
                                 <li key={todo.id} className="w-full border p-4 bg-white cursor-pointer flex justify-around" >
                                     <span className="text-black  w-96" onClick={() => navigate(`/todos/${todo.id}?email=${email}`)} >
