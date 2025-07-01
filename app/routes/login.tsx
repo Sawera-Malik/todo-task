@@ -5,7 +5,7 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import Input from "~/components/Input";
 import Button from "~/components/Button";
 import { validationError } from "remix-validated-form";
-import { validatorLogin } from "~/validation";
+import { loginValidator } from "~/validation";
 
 async function validateCredentials(email: string | undefined, password: string | undefined) {
   if (email && password) return email;
@@ -18,7 +18,7 @@ export const action: ActionFunction = async ({ request }) => {
   );
 
   const form = await request.formData();
-  const result = await validatorLogin.validate(
+  const result = await loginValidator.validate(
     await form,
   );
 
@@ -69,16 +69,10 @@ export default function LoginPage() {
 
         <Form method="post" className="space-y-4">
           <div>
-            <Input label="Email" type="email" name="email" placeholder='Enter your email' />
-            {actionData?.fieldErrors?.email && (
-              <p className="text-red-600 text-xs mt-1">{actionData.fieldErrors.email}</p>
-            )}
+            <Input label="Email" type="email" name="email" error={actionData?.fieldErrors?.email} placeholder='Enter your email' />
           </div>
           <div>
-            <Input label="Password" type="password" name="password" placeholder='Enter your password' />
-            {actionData?.fieldErrors?.password && (
-              <p className="text-red-600 text-xs mt-1">{actionData.fieldErrors.password}</p>
-            )}
+            <Input label="Password" type="password" name="password" error={actionData?.fieldErrors?.password} placeholder='Enter your password' />
           </div>
           <div className="flex justify-end">
             <Button variant="danger">Login</Button>

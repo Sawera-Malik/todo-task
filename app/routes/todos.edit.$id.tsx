@@ -1,9 +1,9 @@
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { json, useActionData, useLoaderData } from '@remix-run/react';
 import TodoForm from '~/components/TodoForm'
-import { getNote, updateNote } from '~/config/api';
+import { getNote, updateNote } from '~/services/api';
 import { validationError } from 'remix-validated-form';
-import { validatorTodo } from '~/validation';
+import { todoValidator } from '~/validation';
 
 export async function loader({ params }: LoaderFunctionArgs) {
     const id = params.id as string;
@@ -15,7 +15,7 @@ export async function action({ request, params }: LoaderFunctionArgs) {
     const id = params.id as string;
     const form = await request.formData();
     const data = Object.fromEntries(form);
-    const result = await validatorTodo.validate(
+    const result = await todoValidator.validate(
         await data
     )
     if (result.error) {
