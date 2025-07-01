@@ -7,10 +7,6 @@ type TodoFormProps = {
     defaultBody?: string;
 };
 const TodoForm = ({ actionData, defaultBody, defaultText }: TodoFormProps) => {
-    console.log("actionData", defaultBody);
-    console.log("defaultText", defaultText);
-
-
     return (
         <div> <input type="hidden" name="actionType" value="add" />
             <Input type='text' label="Text" name="todoText" placeholder='Enter todo...' error={actionData?.errors?.todoText} defaultValue={defaultText} />

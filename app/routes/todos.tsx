@@ -1,5 +1,5 @@
 import { json, type LoaderFunction } from "@remix-run/node";
-import { Form, Outlet, useLoaderData, useNavigate } from "@remix-run/react";
+import { Outlet, useLoaderData, useNavigate } from "@remix-run/react";
 import Button from "~/components/Button";
 import { getNotes } from "~/config/api";
 
@@ -45,7 +45,7 @@ export default function TodoList() {
                                         className="flex items-center"
                                         onClick={() => navigate(`/todos/edit/${todo.id}?email=${email}`)}
                                     >
-                                        <span className="text-black">Edit</span>
+                                        <span className="text-white">Edit</span>
                                     </Button>
                                 </li>
                             ))}
