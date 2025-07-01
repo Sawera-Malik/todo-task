@@ -1,12 +1,11 @@
 import { json, type ActionFunction } from "@remix-run/node";
 import { Form, redirect, useActionData } from "@remix-run/react";
-import {
-  getSession,
-  commitSession,
-} from "../session.server";
+import { getSession, commitSession } from "../session.server";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import Input from "~/components/Input";
 import Button from "~/components/Button";
+import { validationError } from "remix-validated-form";
+import { loginValidator } from "~/validation";
 
 async function validateCredentials(email: string | undefined, password: string | undefined) {
   if (email && password) return email;
@@ -19,8 +18,15 @@ export const action: ActionFunction = async ({ request }) => {
   );
 
   const form = await request.formData();
-  const email = form.get("email")?.toString();
-  const password = form.get("password")?.toString();
+  const result = await loginValidator.validate(
+    await form,
+  );
+
+  if (result.error) {
+    return validationError(result.error)
+  }
+
+  const { email, password } = result.data;
 
   const userId = await validateCredentials(email, password);
   if (userId === null) {
@@ -61,23 +67,14 @@ export default function LoginPage() {
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8 border border-gray-300">
         <h2 className="text-4xl font-bold mb-6 text-center text-slate-800">Login Form</h2>
 
-        {actionData?.error && (
-          <p className="text-red-600 text-sm mb-4 text-center">{actionData.error}</p>
-        )}
-        {actionData?.message && (
-          <p className="text-green-600 text-sm mb-4 text-center">{actionData.message}</p>
-        )}
-
         <Form method="post" className="space-y-4">
           <div>
-            <Input label="Email" type="email" name="email" placeholder='Enter your email' required />
+            <Input label="Email" type="email" name="email" error={actionData?.fieldErrors?.email} placeholder='Enter your email' />
           </div>
-
           <div>
-            <Input label="Password" type="password" name="password" placeholder='Enter your password' required />
+            <Input label="Password" type="password" name="password" error={actionData?.fieldErrors?.password} placeholder='Enter your password' />
           </div>
           <div className="flex justify-end">
-
             <Button variant="danger">Login</Button>
           </div>
         </Form>
@@ -86,4 +83,3 @@ export default function LoginPage() {
 
   );
 }
-

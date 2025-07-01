@@ -11,10 +11,8 @@ const TodoForm = ({ actionData, defaultBody, defaultText }: TodoFormProps) => {
     return (
         <div>
             <Form method="post" className="space-y-4 m-10 block">
-                <input type="hidden" name="actionType" value="add" />
-                <Input type='text' label="Text" name="todoText" placeholder='Enter todo...' error={actionData?.errors?.todoText} defaultValue={defaultText} />
-                <input type="hidden" name="actionType" value="add" />
-                <Input key={defaultBody} type='textarea' label="Body" name="todoBody" rows={9} placeholder='Enter body... ' error={actionData?.errors?.todoBody} defaultValue={defaultBody} />
+                <Input type='text' label="Text" name="text" placeholder='Enter todo...' error={actionData?.fieldErrors?.text} defaultValue={defaultText} />
+                <Input key={defaultBody} type='textarea' label="Body" name="body" rows={9} placeholder='Enter body... ' error={actionData?.fieldErrors?.body} defaultValue={defaultBody} />
                 <div className="flex justify-end">
                     <Button> Save </Button>
                 </div>

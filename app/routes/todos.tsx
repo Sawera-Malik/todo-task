@@ -1,7 +1,7 @@
 import { json, type LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData, useNavigate } from "@remix-run/react";
 import Button from "~/components/Button";
-import { getNotes } from "~/config/api";
+import { getNotes } from "~/services/api";
 
 export const loader: LoaderFunction = async ({ request }) => {
     const url = new URL(request.url);
